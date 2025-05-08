@@ -1,4 +1,4 @@
-package de.moeri.dunedleserver.logic;
+package eu.dunedle.dunedleserver.logic;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.moeri.dunedleserver.domain.Category;
-import de.moeri.dunedleserver.domain.DuneCharacter;
-import de.moeri.dunedleserver.domain.GuessResponse;
-import de.moeri.dunedleserver.repository.DuneCharacterRepository;
+import eu.dunedle.dunedleserver.domain.Category;
+import eu.dunedle.dunedleserver.domain.DuneCharacter;
+import eu.dunedle.dunedleserver.domain.GuessResponse;
+import eu.dunedle.dunedleserver.repository.DuneCharacterRepository;
 
 @Service
 public class DunedleService {
@@ -39,19 +39,27 @@ public class DunedleService {
 	}
 	
 	private Map<Category, Integer> evaluateGuess(DuneCharacter character) {
-		DuneCharacter target = getTargetCharacter();
+		DuneCharacter target = getTodaysTargetCharacter();
 		
 		Map<Category, Integer> guessEvaluation = new HashMap<>();
-		guessEvaluation.put(Category.GENDER, Utils.compareObject(target.getGender(), character.getGender()));
+		guessEvaluation.put(Category.GENDER, Utils.compareLists(target.getGenders(), character.getGenders()));
+		guessEvaluation.put(Category.HEIGHT, Utils.compareInteger(target.getHeight(), character.getHeight()));
+		guessEvaluation.put(Category.HAIRCOLOR, Utils.compareLists(target.getHairColors(), character.getHairColors()));
 		guessEvaluation.put(Category.FACTION, Utils.compareLists(target.getFactions(), character.getFactions()));
 		guessEvaluation.put(Category.BOOKS, Utils.compareLists(target.getBooks(), character.getBooks()));
 		
 		return guessEvaluation;
 	}
 	
-	private DuneCharacter getTargetCharacter() {
+	private DuneCharacter getTodaysTargetCharacter() {
 		List<DuneCharacter> candidates = getAll();
-		Random rnd = new Random(Utils.getSeedOfDay());
+		Random rnd = new Random(Utils.getSeedOfToday());
+		return candidates.get(rnd.nextInt(0, candidates.size()));
+	}
+	
+	public DuneCharacter getYesterdaysCharacter() {
+		List<DuneCharacter> candidates = getAll();
+		Random rnd = new Random(Utils.getSeedOfYesterday());
 		return candidates.get(rnd.nextInt(0, candidates.size()));
 	}
 }

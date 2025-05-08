@@ -1,4 +1,4 @@
-package de.moeri.dunedleserver.api;
+package eu.dunedle.dunedleserver.api;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.moeri.dunedleserver.domain.DuneCharacter;
-import de.moeri.dunedleserver.domain.GuessResponse;
-import de.moeri.dunedleserver.logic.DunedleService;
+import eu.dunedle.dunedleserver.domain.DuneCharacter;
+import eu.dunedle.dunedleserver.domain.GuessResponse;
+import eu.dunedle.dunedleserver.logic.DunedleService;
 
 @RestController
 public class DunedleRestController {
@@ -30,6 +30,11 @@ public class DunedleRestController {
 	@GetMapping("/dune-character/search-by-name")
 	public List<DuneCharacter> findCharactersByNameSearchInput(@RequestParam(value = "input") String searchInput) {
 		return dunedleService.getCharactersByName(searchInput);
+	}
+	
+	@GetMapping("/dune-character/yesterday")
+	public DuneCharacter getYesterdaysCharacter() {
+		return dunedleService.getYesterdaysCharacter();
 	}
 	
 	@GetMapping("/guess")

@@ -1,4 +1,4 @@
-package de.moeri.dunedleserver;
+package eu.dunedle.dunedleserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

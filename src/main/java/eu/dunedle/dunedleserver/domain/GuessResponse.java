@@ -1,4 +1,4 @@
-package de.moeri.dunedleserver.domain;
+package eu.dunedle.dunedleserver.domain;
 
 import java.util.Map;
 

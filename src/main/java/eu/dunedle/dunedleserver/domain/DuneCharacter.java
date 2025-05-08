@@ -1,4 +1,4 @@
-package de.moeri.dunedleserver.domain;
+package eu.dunedle.dunedleserver.domain;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +31,13 @@ public class DuneCharacter {
 	
 	String name; 
 	
-	@Enumerated(EnumType.STRING) Gender gender; 
+	@ElementCollection(targetClass = Gender.class)
+	@Enumerated(EnumType.STRING) 
+	@JoinTable(name = "character_gender", joinColumns = @JoinColumn(name = "character_id"))
+	@Column(name = "gender")
+	List<Gender> genders; 
+	
+	Integer height;
 	
 	@ElementCollection(targetClass = Faction.class) 
 	@Enumerated(EnumType.STRING)
@@ -39,9 +45,15 @@ public class DuneCharacter {
 	@Column(name = "faction")
 	List<Faction> factions; 
 	
+	@ElementCollection(targetClass = HairColor.class) 
+	@Enumerated(EnumType.STRING) 
+	@JoinTable(name = "character_hair_color", joinColumns = @JoinColumn(name = "character_id")) 
+	@Column(name = "hair_color")
+	List<HairColor> hairColors; 
+	
 	@ElementCollection(targetClass = Book.class) 
 	@Enumerated(EnumType.STRING) 
 	@JoinTable(name = "character_book", joinColumns = @JoinColumn(name = "character_id")) 
 	@Column(name = "book")
-	List<Book> books;
+	List<Book> books; 
 }
